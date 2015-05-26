@@ -1,47 +1,49 @@
-#include "Player.h"
+#include <QApplication>
+#include <QMainWindow>
 
-int main(void) {
+#include "console.h"
+#include "mainwindow.h"
 
-	srand(time(0));
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    srand(time(0));
+    mainWindow w;
+    w.show();
 
-	int width;
-	int height;
-	int Vbonus;
 
-	std::cout << "Enter the height of the Labyrinth : ";
-	std::cin >> height;
-	std::cout << std::endl;
-	height += 1;
 
-	std::cout << "Enter the width of the Labyrinth : ";
-	std::cin >> width;
-	std::cout << std::endl;
-	width += 2;
+    /*Console CS;
 
-	std::cout << "Enter the value of the bonus : ";
-	std::cin >> Vbonus;
-	std::cout << std::endl;
+    int height = CS.GetHeight() + 2;
+    int width = CS.GetWidth() + 2;
+    int Vbonus = CS.GetBoValue();
 
-	int finishI = 1 + rand () % (height - 1);
-	int finishJ = 1 + rand () % (width - 2);
+    int finishI = 1 + rand () % (height - 2);
+    int finishJ = 1 + rand () % (width - 2);
 
-	int startI = 1 + rand() % (height - 1);
-	while (startI == finishI) { startI = 1 + rand() % (height - 1); }
-	int startJ = 1 + rand() % (width - 2);
-	while (startJ == finishJ) { startJ = 1 + rand() % (width - 2); }
+    int startI = 1 + rand() % (height - 2);
+    while (startI == finishI) { startI = 1 + rand() % (height - 2); }
+    int startJ = 1 + rand() % (width - 2);
+    while (startJ == finishJ) { startJ = 1 + rand() % (width - 2); }
 
-	Lab Map(width, height, finishI, finishJ);
-	Map.CreateLab();
+    Lab Map(width, height, finishI, finishJ);
+    Map.CreateLab();
 
-	Player PL(Map, startI, startJ);
+    Player PL(Map, startI, startJ);
 
-	Map.bonusCreator(Vbonus);
-	
-	system("cls");
-	std::cout << Map;
+    Map.bonusCreator(Vbonus);
 
-	PL.Move(Map, finishI, finishJ, Vbonus);
+    Console Csl(Map, PL);
 
-	system("pause");
-	return 0;
+    Csl.Out();
+
+    Ai ai(Map, Vbonus, startI, startJ);
+
+    Csl.Mode(ai, finishI, finishJ, Vbonus);
+
+    system("pause");
+    return 0;*/
+
+    return a.exec();
 }
