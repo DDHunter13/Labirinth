@@ -35,6 +35,8 @@ private:
     int stI,stJ;
     //Выход
     int exI, exJ;
+    //кол-во бонусов
+    int bbb;
 
 public:
 
@@ -50,7 +52,7 @@ public:
     Lab& operator = (const Lab& lb);
 
     //Конструктор
-    Lab(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst);
+    Lab(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bb);
     Lab(){};
 
     //Деструктор
@@ -63,7 +65,7 @@ public:
     void Nul();
 
     //Расстановка бонусов
-    void bonusCreator(const int);
+    void bonusCreator();
 
     //вывод лабиринта
     friend std::ostream& operator << (std::ostream&, const Lab&);
