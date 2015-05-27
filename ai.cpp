@@ -96,6 +96,7 @@ void Ai::BonusSearch() {
         qn = Q2.back();
         AMap.Nul();
     }
+    AMap.Arr[AMap.exI][AMap.exJ].pack = '#';
 }
 
 // Поиск выхода
