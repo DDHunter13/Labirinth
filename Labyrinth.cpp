@@ -9,6 +9,11 @@
 Lab::Lab(const Lab& Map1){
     H = Map1.H;
     W = Map1.W;
+    stI = Map1.stI;
+    stJ = Map1.stJ;
+    exI = Map1.exI;
+    exJ = Map1.exJ;
+    bbb = Map1.bbb;
     Arr = new item*[H];
     for (int i = 0; i < H; i++) {
         Arr[i] = new item[W];
@@ -31,6 +36,11 @@ Lab& Lab::operator = (const Lab& lb){
 
     H = lb.H;
     W = lb.W;
+    stI = lb.stI;
+    stJ = lb.stJ;
+    exI = lb.exI;
+    exJ = lb.exJ;
+    bbb = lb.bbb;
     Arr = new item*[H];
     for (int i = 0; i < H; i++) {
         Arr[i] = new item[W];
@@ -48,7 +58,7 @@ Lab& Lab::operator = (const Lab& lb){
 }
 
 //Конструктор
-Lab::Lab(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst) {
+Lab::Lab(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bb) {
     W = width;
     H = height;
     Arr = new item*[H];
@@ -61,6 +71,7 @@ Lab::Lab(const int width, const int height, const int ixit, const int jxit, cons
     exJ = jxit;
     stI = ist;
     stJ = jst;
+    bbb = bb;
 
 }
 
@@ -162,8 +173,8 @@ void Lab::Nul(){
 
 
 //Расстановка бонусов
-void Lab::bonusCreator(const int b) {
-    for (int i = 0; i < b; ++i) {
+void Lab::bonusCreator() {
+    for (int i = 0; i < bbb; ++i) {
         int xx = 1 + rand() % (H - 2);
         int yy = 1 + rand() % (W - 2);
         while ((Arr[xx][yy].pack == '*') || (Arr[xx][yy].pack == '#') || (Arr[xx][yy].pack == 'x')){
