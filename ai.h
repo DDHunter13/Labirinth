@@ -21,7 +21,7 @@ private:
     std::queue<que> Q1;
     // Стэк для составления пути между стартом, бонусом и финишом
     std::stack<que> S;
-    // Очередь для хранения пути для полного прохождения лабиринта
+    // Очередь для хранения пути полного прохождения лабиринта
     std::queue<que> Q2;
     // Общее кол-во бонусов
     int ABonus;
@@ -32,6 +32,7 @@ private:
 public:
 
     friend class Console;
+    friend class MazeWidget;
 
     // Конструктор
     Ai(Lab &, int, int, int);
