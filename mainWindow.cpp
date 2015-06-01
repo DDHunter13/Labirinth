@@ -13,7 +13,7 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent)
     Exit->setFixedSize(70,20);
     Bot->setFixedSize(70,20);
     Bot->setEnabled(false);
-    
+
     //Настройка спинбоксов и заголовков
     height->setText("Высота");
     width->setText("Ширина");
@@ -27,7 +27,7 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent)
     lineW->setMaximum(100);
     lineB->setFixedSize(55,20);
     lineB->setMaximum(lineH->value()*lineW->value()/10);
-    
+
     //Помещение виджетов в слои
     vertLayButtons->addWidget(Create);
     vertLayButtons->addWidget(Bot);
@@ -43,13 +43,14 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent)
     mainLay->addWidget(mainW);
     mainLay->addLayout(vertLayText);
     mainLay->addLayout(vertLayButtons);
-    
+
     //Коннекты
     connect(Create,SIGNAL(clicked()),this,SLOT(readSpinBox()));
     connect(Exit,SIGNAL(clicked()),this,SLOT(close()));
     connect(Bot,SIGNAL(clicked()),this,SLOT(BotStart1()));
     connect(lineH,SIGNAL(valueChanged(int)),this,SLOT(MaxBonusesChange()));
     connect(lineW,SIGNAL(valueChanged(int)),this,SLOT(MaxBonusesChange()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(g1()));
 
     //Задание главного слоя
     setLayout(mainLay);
@@ -58,9 +59,10 @@ mainWindow::mainWindow(QWidget *parent) : QWidget(parent)
 //Вызов бота
 void mainWindow::BotStart1(){
     Bot->setEnabled(false);
+    Exit->setFocus();
+    emit timer->start(1000);
     emit mainW->BotStart();
 }
-
 
 mainWindow::~mainWindow(){}
 
@@ -88,7 +90,7 @@ void mainWindow::createClicked(int H, int W, int VB) {
     }
     mainW->setFixedSize(W*10,H*10);
     mainW->CreateMaze(W, H, finishI, finishJ, startI, startJ,VB);
-    
+
     //Настройка поля после создания лабиринта
     Bot->setEnabled(true);
     mainW->setFocus();
@@ -103,4 +105,9 @@ void mainWindow::createClicked(int H, int W, int VB) {
 //Изменения максимального кол-ва бонусов
 void mainWindow::MaxBonusesChange(){
     lineB->setMaximum(lineH->value()*lineW->value()/10);
+}
+
+//Для прерывания
+void mainWindow::g1(){
+    emit mainW->BotMove();
 }
