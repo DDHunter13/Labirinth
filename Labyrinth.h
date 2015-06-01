@@ -37,6 +37,8 @@ private:
     int exI, exJ;
     //кол-во бонусов
     int bbb;
+    //Флаг
+    int ff;
 
 public:
 
@@ -67,7 +69,13 @@ public:
     //Расстановка бонусов
     void bonusCreator();
 
-    //вывод лабиринта
+    //Ходы
+    void UpMove();
+    void DownMove();
+    void RightMove();
+    void LeftMove();
+
+    //вывод лабиринта в консоль
     friend std::ostream& operator << (std::ostream&, const Lab&);
 
 };
