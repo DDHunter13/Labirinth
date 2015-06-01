@@ -1,7 +1,9 @@
 #include "mazewidget.h"
 #include <iostream>
 
+
 MazeWidget::MazeWidget(QWidget *parent) : QWidget (parent){}
+
 
 //Создание Лабиринта
 void MazeWidget::CreateMaze(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bonuses){
@@ -17,53 +19,21 @@ void MazeWidget::keyPressEvent(QKeyEvent *pressed){
     //Проверка - не пройден ли уже лабиринт
     if (flag == 0) {
         if (pressed->key() == Qt::Key_Up) {
-            if (maze->Arr[maze->stI-1][maze->stJ].down_wall == 0) {
-                if (maze->Arr[maze->stI-1][maze->stJ].pack == '*'){
-                    maze->bbb -= 1;
-                }
-                maze->Arr[maze->stI][maze->stJ].pack = ' ';
-                maze->stI -= 1;
-                maze->Arr[maze->exI][maze->exJ].pack = '#';
-                maze->Arr[maze->stI][maze->stJ].pack = 'x';
-                repaint();
-            }
+            maze->UpMove();
+            repaint();
+
         }
         if (pressed->key() == Qt::Key_Down) {
-            if (maze->Arr[maze->stI][maze->stJ].down_wall == 0) {
-                if (maze->Arr[maze->stI+1][maze->stJ].pack == '*'){
-                    maze->bbb -= 1;
-                }
-                maze->Arr[maze->stI][maze->stJ].pack = ' ';
-                maze->stI += 1;
-                maze->Arr[maze->exI][maze->exJ].pack = '#';
-                maze->Arr[maze->stI][maze->stJ].pack = 'x';
-                repaint();
-            }
+            maze->DownMove();
+            repaint();
         }
         if (pressed->key() == Qt::Key_Right) {
-            if (maze->Arr[maze->stI][maze->stJ].right_wall == 0) {
-                if (maze->Arr[maze->stI][maze->stJ+1].pack == '*'){
-                    maze->bbb -= 1;
-                }
-                maze->Arr[maze->stI][maze->stJ].pack = ' ';
-                maze->stJ += 1;
-                maze->Arr[maze->exI][maze->exJ].pack = '#';
-                maze->Arr[maze->stI][maze->stJ].pack = 'x';
-                repaint();
-            }
+            maze->RightMove();
+            repaint();
         }
         if (pressed->key() == Qt::Key_Left) {
-            if (maze->Arr[maze->stI][maze->stJ-1].right_wall == 0) {
-                if (maze->Arr[maze->stI][maze->stJ-1].pack == '*'){
-                    maze->bbb -= 1;
-                }
-                maze->Arr[maze->stI][maze->stJ].pack = ' ';
-                maze->stJ -= 1;
-                maze->Arr[maze->exI][maze->exJ].pack = '#';
-                maze->Arr[maze->stI][maze->stJ].pack = 'x';
-                repaint();
-
-            }
+            maze->LeftMove();
+            repaint();
         }
         //проверка - если лабиринт пройден - флаг = 1
         if ((maze->bbb == 0) && (maze->stI == maze->exI) && (maze->stJ == maze->exJ)){
@@ -88,7 +58,7 @@ void MazeWidget::paintEvent(QPaintEvent*){
             }
             p.setPen(QPen(Qt::red, 1, Qt::SolidLine));
             p.setBrush(QBrush(Qt::red, Qt::SolidPattern));
-            if (maze->Arr[i][j].pack == '*'){
+            if ((maze->Arr[i][j].pack == '*') || (maze->Arr[i][j].pack == '+')){
                 p.drawEllipse(j*10+1, i*10+1, 8, 8);
             }
             p.setPen(QPen(Qt::blue, 1, Qt::SolidLine));
@@ -109,19 +79,15 @@ void MazeWidget::paintEvent(QPaintEvent*){
 //Запуск и работа бота
 void MazeWidget::BotStart(){
 
-    bot = new Ai(*maze, maze->bbb, maze->stI, maze->stJ);
+    bot = new Ai(maze, maze->bbb, maze->stI, maze->stJ);
     bot->Exit();
-    que qqq;
+    emit BotMove();
+}
 
-    while (bot->Q2.size() != 0) {
-        qqq = bot->Q2.front();
-        bot->Q2.pop();
-        maze->Arr[maze->stI][maze->stJ].pack = ' ';
-        maze->stI = qqq.xx;
-        maze->stJ = qqq.yy;
-        maze->Arr[maze->exI][maze->exJ].pack = '#';
-        maze->Arr[maze->stI][maze->stJ].pack = 'x';
+//Единичный ход бота
+void MazeWidget::BotMove(){
+    if (bot->Q2.size() != 0){
+        bot->ExitDraw();
         repaint();
-        Sleep(500);
     }
 }
