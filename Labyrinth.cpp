@@ -72,7 +72,6 @@ Lab::Lab(const int width, const int height, const int ixit, const int jxit, cons
     stI = ist;
     stJ = jst;
     bbb = bb;
-
 }
 
 //Деструктор
@@ -83,7 +82,7 @@ Lab::~Lab() {
     delete[] Arr;
 }
 
-//вывод лабиринта
+//вывод лабиринта в консоль
  std::ostream& operator << (std::ostream& os, const Lab& out) {
     for (int i = 0; i < out.H - 1; ++i) {
         for (int j = 0; j < out.W - 1; ++j) {
@@ -182,5 +181,59 @@ void Lab::bonusCreator() {
             int yy = 1 + rand() % (W - 2);
         }
         Arr[xx][yy].pack = '*';
+    }
+}
+
+//Ход вверх
+void Lab::UpMove(){
+    if (Arr[stI-1][stJ].down_wall == 0){
+        if (Arr[stI-1][stJ].pack == '*') {
+            bbb -= 1;
+        }
+        Arr[stI][stJ].pack = ' ';
+        stI -= 1;
+        Arr[exI][exJ].pack = '#';
+        Arr[stI][stJ].pack = 'x';
+    }
+}
+
+//Ход вниз
+void Lab::DownMove(){
+    if (Arr[stI][stJ].down_wall == 0) {
+        if (Arr[stI+1][stJ].pack == '*'){
+            bbb -= 1;
+        }
+        Arr[stI][stJ].pack = ' ';
+        stI += 1;
+        Arr[exI][exJ].pack = '#';
+        Arr[stI][stJ].pack = 'x';
+    }
+}
+
+//Ход вправо
+void Lab::RightMove(){
+    if (Arr[stI][stJ].right_wall == 0) {
+        if (Arr[stI][stJ+1].pack == '*'){
+            bbb -= 1;
+        }
+        Arr[stI][stJ].pack = ' ';
+        stJ += 1;
+        Arr[exI][exJ].pack = '#';
+        Arr[stI][stJ].pack = 'x';
+    }
+}
+
+//Ход влево
+void Lab::LeftMove(){
+    if (Arr[stI][stJ-1].right_wall == 0) {
+        if (Arr[stI][stJ-1].pack == '*'){
+            bbb -= 1;
+        }
+        Arr[stI][stJ].pack = ' ';
+        stJ -= 1;
+        Arr[exI][exJ].pack = '#';
+        Arr[stI][stJ].pack = 'x';
+
+
     }
 }
