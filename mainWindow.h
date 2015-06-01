@@ -1,56 +1,48 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAZEWIDGET_H
+#define MAZEWIDGET_H
 
-#include <QLayout>
 #include <QWidget>
-#include <QSpinBox>
-#include <QPushButton>
+#include <QPainter>
+#include <conio.h>
+#include <windows.h>
+#include <QEvent>
+#include <QKeyEvent>
 #include <QLabel>
+#include <QTimer>
+#include "labyrinth.h"
+#include "ai.h"
 
-#include "mazewidget.h"
+class QPaintEvent;
 
-class mainWindow : public QWidget
-{
-    Q_OBJECT
-private:
+class MazeWidget : public QWidget {
 
-    //Отрисовка лабиринта
-    MazeWidget *mainW;
-    //Главный слой
-    QHBoxLayout *mainLay = new QHBoxLayout;
-    //Слой для хранения строк ввода параметров лабиринта
-    QVBoxLayout *vertLayText = new QVBoxLayout;
-    //СЛой для хранения кнопок
-    QVBoxLayout *vertLayButtons = new QVBoxLayout;
-    //Подписи к строкам ввода
-    QLabel *height = new QLabel;
-    QLabel *width = new QLabel;
-    QLabel *bonus = new QLabel;
-    //Кнопки Создания, Выхода и Запуска бота
-    QPushButton *Create = new QPushButton;
-    QPushButton *Exit = new QPushButton;
-    QPushButton *Bot = new QPushButton;
-    //СТроки для ввода параметров лабиринта
-    QSpinBox *lineH = new QSpinBox;
-    QSpinBox *lineW = new QSpinBox;
-    QSpinBox *lineB = new QSpinBox;
+
+    //Лабиринт
+    Lab *maze;
+    //Бот
+    Ai *bot;
+    //Флаг для проверки прохождения
+    int flag = 0;
 
 public:
-    mainWindow(QWidget *parent = 0);
-    ~mainWindow();
 
-public slots:
-    //Выхов генератора лабиринта
-    void createClicked (int H, int W, int VB);
-    //Чтение информации из спинбоксов
-    void readSpinBox();
-    //Вызов бота
-    void BotStart1();
-    //Изменение максимального кол-ва бонусов в лабиринте
-    void MaxBonusesChange();
+    friend class mainWindow;
+    MazeWidget(QWidget *parent = 0);
+    //СОздание лабиринта
+    void CreateMaze(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bonuses);
+    //Перегрузка keyPressEvent для осуществления ходов
+    void keyPressEvent(QKeyEvent *pressed);
 
+protected:
+    //Отрисовка лабиринта
+    void paintEvent(QPaintEvent*);
 signals:
 
+public slots:
+    //Запуск бота
+    void BotStart();
+    //Единичные ходы бота
+    void BotMove();
 };
 
-#endif // MAINWINDOW_H
+#endif // MAZEWIDGET_H
