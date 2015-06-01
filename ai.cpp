@@ -1,7 +1,7 @@
 #include "ai.h"
 
 // Контсруктор
-Ai::Ai(Lab &L, int B, int sx, int sy){
+Ai::Ai(Lab *L, int B, int sx, int sy){
     AMap = L;
     ABonus = B;
     que qq;
@@ -16,30 +16,30 @@ void Ai::Surround(que q1) {
     que qq;
     qq.xx = q1.xx;
     qq.yy = q1.yy;
-    if ((AMap.Arr[q1.xx - 1][q1.yy].down_wall == 0) && (AMap.Arr[q1.xx - 1][q1.yy].ff == 0)) {
-        AMap.Arr[q1.xx - 1][q1.yy].point = AMap.Arr[q1.xx][q1.yy].point + 1;
-        AMap.Arr[q1.xx - 1][q1.yy].ff = 1;
+    if ((AMap->Arr[q1.xx - 1][q1.yy].down_wall == 0) && (AMap->Arr[q1.xx - 1][q1.yy].ff == 0)) {
+        AMap->Arr[q1.xx - 1][q1.yy].point = AMap->Arr[q1.xx][q1.yy].point + 1;
+        AMap->Arr[q1.xx - 1][q1.yy].ff = 1;
         qq.xx -= 1;
         Q1.push(qq);
         qq.xx += 1;
     }
-    if ((AMap.Arr[q1.xx][q1.yy].down_wall == 0) && (AMap.Arr[q1.xx + 1][q1.yy].ff == 0)) {
-        AMap.Arr[q1.xx + 1][q1.yy].point = AMap.Arr[q1.xx][q1.yy].point + 1;
-        AMap.Arr[q1.xx + 1][q1.yy].ff = 1;
+    if ((AMap->Arr[q1.xx][q1.yy].down_wall == 0) && (AMap->Arr[q1.xx + 1][q1.yy].ff == 0)) {
+        AMap->Arr[q1.xx + 1][q1.yy].point = AMap->Arr[q1.xx][q1.yy].point + 1;
+        AMap->Arr[q1.xx + 1][q1.yy].ff = 1;
         qq.xx += 1;
         Q1.push(qq);
         qq.xx -= 1;
     }
-    if ((AMap.Arr[q1.xx][q1.yy - 1].right_wall == 0) && (AMap.Arr[q1.xx][q1.yy - 1].ff == 0)) {
-        AMap.Arr[q1.xx][q1.yy - 1].point = AMap.Arr[q1.xx][q1.yy].point + 1;
-        AMap.Arr[q1.xx][q1.yy - 1].ff = 1;
+    if ((AMap->Arr[q1.xx][q1.yy - 1].right_wall == 0) && (AMap->Arr[q1.xx][q1.yy - 1].ff == 0)) {
+        AMap->Arr[q1.xx][q1.yy - 1].point = AMap->Arr[q1.xx][q1.yy].point + 1;
+        AMap->Arr[q1.xx][q1.yy - 1].ff = 1;
         qq.yy -= 1;
         Q1.push(qq);
         qq.yy += 1;
     }
-    if ((AMap.Arr[q1.xx][q1.yy].right_wall == 0) && (AMap.Arr[q1.xx][q1.yy + 1].ff == 0)) {
-        AMap.Arr[q1.xx][q1.yy + 1].point = AMap.Arr[q1.xx][q1.yy].point + 1;
-        AMap.Arr[q1.xx][q1.yy + 1].ff = 1;
+    if ((AMap->Arr[q1.xx][q1.yy].right_wall == 0) && (AMap->Arr[q1.xx][q1.yy + 1].ff == 0)) {
+        AMap->Arr[q1.xx][q1.yy + 1].point = AMap->Arr[q1.xx][q1.yy].point + 1;
+        AMap->Arr[q1.xx][q1.yy + 1].ff = 1;
         qq.yy += 1;
         Q1.push(qq);
         qq.yy -= 1;
@@ -52,21 +52,21 @@ void Ai::BonusSearch() {
     que qn = Q1.front();
     Q1.pop();
     while (BonusNow != ABonus){
-        while (AMap.Arr[qn.xx][qn.yy].pack != '*'){
-            AMap.Arr[qn.xx][qn.yy].ff = 1;
+        while (AMap->Arr[qn.xx][qn.yy].pack != '*'){
+            AMap->Arr[qn.xx][qn.yy].ff = 1;
             Surround(qn);
             qn = Q1.front();
             Q1.pop();
         }
-        AMap.Arr[qn.xx][qn.yy].pack = ' ';
+        AMap->Arr[qn.xx][qn.yy].pack = '+';
         BonusNow += 1;
         S.push(qn);
-        while (AMap.Arr[qn.xx][qn.yy].point != 1){
+        while (AMap->Arr[qn.xx][qn.yy].point != 1){
             int fl = 0;
-            if ((AMap.Arr[qn.xx - 1][qn.yy].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx - 1][qn.yy].down_wall == 0)) { fl = 1; }
-            if ((AMap.Arr[qn.xx + 1][qn.yy].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx][qn.yy].down_wall == 0)) { fl = 2; }
-            if ((AMap.Arr[qn.xx][qn.yy - 1].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx][qn.yy - 1].right_wall == 0)) { fl = 3; }
-            if ((AMap.Arr[qn.xx][qn.yy + 1].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx][qn.yy].right_wall == 0)) { fl = 4; }
+            if ((AMap->Arr[qn.xx - 1][qn.yy].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx - 1][qn.yy].down_wall == 0)) { fl = 1; }
+            if ((AMap->Arr[qn.xx + 1][qn.yy].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx][qn.yy].down_wall == 0)) { fl = 2; }
+            if ((AMap->Arr[qn.xx][qn.yy - 1].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx][qn.yy - 1].right_wall == 0)) { fl = 3; }
+            if ((AMap->Arr[qn.xx][qn.yy + 1].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx][qn.yy].right_wall == 0)) { fl = 4; }
             switch (fl) {
             case (1) :
                 qn.xx -= 1;
@@ -94,27 +94,27 @@ void Ai::BonusSearch() {
             Q1.pop();
         }
         qn = Q2.back();
-        AMap.Nul();
+        AMap->Nul();
     }
-    AMap.Arr[AMap.exI][AMap.exJ].pack = '#';
+    AMap->Arr[AMap->exI][AMap->exJ].pack = '#';
 }
 
 // Поиск выхода
 void Ai::ExitSearch(){
     que qn = Q2.back();
-    while (AMap.Arr[qn.xx][qn.yy].pack != '#'){
-        AMap.Arr[qn.xx][qn.yy].ff = 1;
+    while (AMap->Arr[qn.xx][qn.yy].pack != '#'){
+        AMap->Arr[qn.xx][qn.yy].ff = 1;
         Surround(qn);
         qn = Q1.front();
         Q1.pop();
     }
     S.push(qn);
-    while (AMap.Arr[qn.xx][qn.yy].point != 1) {
+    while (AMap->Arr[qn.xx][qn.yy].point != 1) {
         int fl = 0;
-        if ((AMap.Arr[qn.xx - 1][qn.yy].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx - 1][qn.yy].down_wall == 0)) { fl = 1; }
-        if ((AMap.Arr[qn.xx + 1][qn.yy].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx][qn.yy].down_wall == 0)) { fl = 2; }
-        if ((AMap.Arr[qn.xx][qn.yy - 1].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx][qn.yy - 1].right_wall == 0)) { fl = 3; }
-        if ((AMap.Arr[qn.xx][qn.yy + 1].point == AMap.Arr[qn.xx][qn.yy].point - 1) && (AMap.Arr[qn.xx][qn.yy].right_wall == 0)) { fl = 4; }
+        if ((AMap->Arr[qn.xx - 1][qn.yy].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx - 1][qn.yy].down_wall == 0)) { fl = 1; }
+        if ((AMap->Arr[qn.xx + 1][qn.yy].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx][qn.yy].down_wall == 0)) { fl = 2; }
+        if ((AMap->Arr[qn.xx][qn.yy - 1].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx][qn.yy - 1].right_wall == 0)) { fl = 3; }
+        if ((AMap->Arr[qn.xx][qn.yy + 1].point == AMap->Arr[qn.xx][qn.yy].point - 1) && (AMap->Arr[qn.xx][qn.yy].right_wall == 0)) { fl = 4; }
         switch (fl) {
         case (1) :
             qn.xx -= 1;
@@ -141,11 +141,23 @@ void Ai::ExitSearch(){
     while (Q1.size() != 0){
         Q1.pop();
     }
-    AMap.Nul();
+    AMap->Nul();
 }
 
 // Вызов методов для прохождения
 void Ai::Exit(){
     BonusSearch();
     ExitSearch();
+}
+
+//Изменения лабиринта после 1 хода бота
+void Ai::ExitDraw(){
+    que qqq;
+    qqq = Q2.front();
+    Q2.pop();
+    AMap->Arr[AMap->stI][AMap->stJ].pack = ' ';
+    AMap->stI = qqq.xx;
+    AMap->stJ = qqq.yy;
+    AMap->Arr[AMap->exI][AMap->exJ].pack = '#';
+    AMap->Arr[AMap->stI][AMap->stJ].pack = 'x';
 }
