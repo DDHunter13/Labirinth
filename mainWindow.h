@@ -1,48 +1,61 @@
-#ifndef MAZEWIDGET_H
-#define MAZEWIDGET_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
+#include <QLayout>
 #include <QWidget>
-#include <QPainter>
-#include <conio.h>
-#include <windows.h>
-#include <QEvent>
-#include <QKeyEvent>
+#include <QSpinBox>
+#include <QPushButton>
 #include <QLabel>
-#include <QTimer>
-#include "labyrinth.h"
-#include "ai.h"
 
-class QPaintEvent;
+#include "mazewidget.h"
 
-class MazeWidget : public QWidget {
+class mainWindow : public QWidget
+{
+    Q_OBJECT
+private:
 
-
-    //Лабиринт
-    Lab *maze;
-    //Бот
-    Ai *bot;
-    //Флаг для проверки прохождения
-    int flag = 0;
+    //Отрисовка лабиринта
+    MazeWidget *mainW;
+    //Главный слой
+    QHBoxLayout *mainLay = new QHBoxLayout;
+    //Слой для хранения строк ввода параметров лабиринта
+    QVBoxLayout *vertLayText = new QVBoxLayout;
+    //СЛой для хранения кнопок
+    QVBoxLayout *vertLayButtons = new QVBoxLayout;
+    //Подписи к строкам ввода
+    QLabel *height = new QLabel;
+    QLabel *width = new QLabel;
+    QLabel *bonus = new QLabel;
+    //Кнопки Создания, Выхода и Запуска бота
+    QPushButton *Create = new QPushButton;
+    QPushButton *Exit = new QPushButton;
+    QPushButton *Bot = new QPushButton;
+    //СТроки для ввода параметров лабиринта
+    QSpinBox *lineH = new QSpinBox;
+    QSpinBox *lineW = new QSpinBox;
+    QSpinBox *lineB = new QSpinBox;
+    //Таймер для работы бота (для возможности прерывания)
+    QTimer *timer = new QTimer(this);
 
 public:
-
-    friend class mainWindow;
-    MazeWidget(QWidget *parent = 0);
-    //СОздание лабиринта
-    void CreateMaze(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bonuses);
-    //Перегрузка keyPressEvent для осуществления ходов
-    void keyPressEvent(QKeyEvent *pressed);
-
-protected:
-    //Отрисовка лабиринта
-    void paintEvent(QPaintEvent*);
-signals:
+    mainWindow(QWidget *parent = 0);
+    ~mainWindow();
 
 public slots:
-    //Запуск бота
-    void BotStart();
-    //Единичные ходы бота
-    void BotMove();
+    //Выхов генератора лабиринта
+    void createClicked (int H, int W, int VB);
+    //Чтение информации из спинбоксов
+    void readSpinBox();
+    //Вызов бота
+    void BotStart1();
+    //Изменение максимального кол-ва бонусов в лабиринте
+    void MaxBonusesChange();
+    //Для единичного хода бота
+    void g1();
+
+signals:
+
 };
 
-#endif // MAZEWIDGET_H
+#endif // MAINWINDOW_H
+
