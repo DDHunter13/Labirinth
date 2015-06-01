@@ -2,11 +2,12 @@
 #define AI
 
 
-#include "player.h"
+#include "labyrinth.h"
 
 #include <queue>
 #include <stack>
 #include <deque>
+#include <windows.h>
 
 // Структура для очереди и стэка
 struct que {
@@ -26,7 +27,8 @@ private:
     // Общее кол-во бонусов
     int ABonus;
     // Лабиринт
-    Lab AMap;
+    Lab *AMap;
+
 
 
 public:
@@ -35,7 +37,7 @@ public:
     friend class MazeWidget;
 
     // Конструктор
-    Ai(Lab &, int, int, int);
+    Ai(Lab * , int, int, int);
 
     // Деструктор
     ~Ai(){};
@@ -51,6 +53,9 @@ public:
 
     // Вызов методов для прохождения
     void Exit();
+
+    // Рисование выхода
+    void ExitDraw();
 
 };
 
