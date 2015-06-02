@@ -8,7 +8,7 @@ MazeWidget::MazeWidget(QWidget *parent) : QWidget (parent){}
 //Создание Лабиринта
 void MazeWidget::CreateMaze(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bonuses){
 
-    maze = new Lab(width,height,ixit,jxit,ist,jst,bonuses);
+    maze = new Lab(width,height,ixit,jxit,bonuses);
     player = new Player(maze,ist,jst);
     maze->CreateLab();
     maze->bonusCreator();
