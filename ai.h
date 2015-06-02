@@ -3,6 +3,7 @@
 
 
 #include "labyrinth.h"
+#include "player.h"
 
 #include <queue>
 #include <stack>
@@ -28,6 +29,8 @@ private:
     int ABonus;
     // Лабиринт
     Lab *AMap;
+    //Игрок
+    Player *APla;
 
 
 
@@ -37,7 +40,7 @@ public:
     friend class MazeWidget;
 
     // Конструктор
-    Ai(Lab * , int, int, int);
+    Ai(Lab * , int, int, int, Player *);
 
     // Деструктор
     ~Ai(){};
