@@ -1,8 +1,9 @@
 #include "ai.h"
 
 // Контсруктор
-Ai::Ai(Lab *L, int B, int sx, int sy){
+Ai::Ai(Lab *L, int B, int sx, int sy, Player *pl){
     AMap = L;
+    APla = pl;
     ABonus = B;
     que qq;
     qq.xx = sx;
@@ -155,9 +156,9 @@ void Ai::ExitDraw(){
     que qqq;
     qqq = Q2.front();
     Q2.pop();
-    AMap->Arr[AMap->stI][AMap->stJ].pack = ' ';
-    AMap->stI = qqq.xx;
-    AMap->stJ = qqq.yy;
+    AMap->Arr[APla->xx][APla->yy].pack = ' ';
+    APla->xx = qqq.xx;
+    APla->yy = qqq.yy;
     AMap->Arr[AMap->exI][AMap->exJ].pack = '#';
-    AMap->Arr[AMap->stI][AMap->stJ].pack = 'x';
+    AMap->Arr[APla->xx][APla->yy].pack = 'x';
 }
