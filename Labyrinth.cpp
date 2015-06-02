@@ -9,8 +9,6 @@
 Lab::Lab(const Lab& Map1){
     H = Map1.H;
     W = Map1.W;
-    stI = Map1.stI;
-    stJ = Map1.stJ;
     exI = Map1.exI;
     exJ = Map1.exJ;
     bbb = Map1.bbb;
@@ -35,9 +33,6 @@ Lab& Lab::operator = (const Lab& lb){
     if (this == &lb) { return *this; }
 
     H = lb.H;
-    W = lb.W;
-    stI = lb.stI;
-    stJ = lb.stJ;
     exI = lb.exI;
     exJ = lb.exJ;
     bbb = lb.bbb;
@@ -69,8 +64,6 @@ Lab::Lab(const int width, const int height, const int ixit, const int jxit, cons
     Arr[ist][jst].pack = 'x';
     exI = ixit;
     exJ = jxit;
-    stI = ist;
-    stJ = jst;
     bbb = bb;
 }
 
@@ -181,59 +174,5 @@ void Lab::bonusCreator() {
             int yy = 1 + rand() % (W - 2);
         }
         Arr[xx][yy].pack = '*';
-    }
-}
-
-//Ход вверх
-void Lab::UpMove(){
-    if (Arr[stI-1][stJ].down_wall == 0){
-        if (Arr[stI-1][stJ].pack == '*') {
-            bbb -= 1;
-        }
-        Arr[stI][stJ].pack = ' ';
-        stI -= 1;
-        Arr[exI][exJ].pack = '#';
-        Arr[stI][stJ].pack = 'x';
-    }
-}
-
-//Ход вниз
-void Lab::DownMove(){
-    if (Arr[stI][stJ].down_wall == 0) {
-        if (Arr[stI+1][stJ].pack == '*'){
-            bbb -= 1;
-        }
-        Arr[stI][stJ].pack = ' ';
-        stI += 1;
-        Arr[exI][exJ].pack = '#';
-        Arr[stI][stJ].pack = 'x';
-    }
-}
-
-//Ход вправо
-void Lab::RightMove(){
-    if (Arr[stI][stJ].right_wall == 0) {
-        if (Arr[stI][stJ+1].pack == '*'){
-            bbb -= 1;
-        }
-        Arr[stI][stJ].pack = ' ';
-        stJ += 1;
-        Arr[exI][exJ].pack = '#';
-        Arr[stI][stJ].pack = 'x';
-    }
-}
-
-//Ход влево
-void Lab::LeftMove(){
-    if (Arr[stI][stJ-1].right_wall == 0) {
-        if (Arr[stI][stJ-1].pack == '*'){
-            bbb -= 1;
-        }
-        Arr[stI][stJ].pack = ' ';
-        stJ -= 1;
-        Arr[exI][exJ].pack = '#';
-        Arr[stI][stJ].pack = 'x';
-
-
     }
 }
