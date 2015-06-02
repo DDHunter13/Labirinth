@@ -61,7 +61,6 @@ Lab::Lab(const int width, const int height, const int ixit, const int jxit, cons
         Arr[i] = new item[W];
     }
     Arr[ixit][jxit].pack = '#';
-    Arr[ist][jst].pack = 'x';
     exI = ixit;
     exJ = jxit;
     bbb = bb;
