@@ -4,6 +4,7 @@ Player::Player(Lab *map, int x, int y) {
     PMap = map;
     xx = x;
     yy = y;
+    PMap->Arr[xx][yy].pack = 'x';
 }
 
 Player::~Player(){}
