@@ -31,8 +31,6 @@ private:
     int H;
     //массив клеток
     item** Arr;
-    //Вход
-    int stI,stJ;
     //Выход
     int exI, exJ;
     //кол-во бонусов
@@ -54,7 +52,7 @@ public:
     Lab& operator = (const Lab& lb);
 
     //Конструктор
-    Lab(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bb);
+    Lab(const int width, const int height, const int ixit, const int jxit, const int bb);
     Lab(){};
 
     //Деструктор
@@ -68,12 +66,6 @@ public:
 
     //Расстановка бонусов
     void bonusCreator();
-
-    //Ходы
-    void UpMove();
-    void DownMove();
-    void RightMove();
-    void LeftMove();
 
     //вывод лабиринта в консоль
     friend std::ostream& operator << (std::ostream&, const Lab&);
