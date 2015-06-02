@@ -53,7 +53,7 @@ Lab& Lab::operator = (const Lab& lb){
 }
 
 //Конструктор
-Lab::Lab(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bb) {
+Lab::Lab(const int width, const int height, const int ixit, const int jxit, const int bb) {
     W = width;
     H = height;
     Arr = new item*[H];
