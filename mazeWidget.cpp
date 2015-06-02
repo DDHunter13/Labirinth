@@ -9,6 +9,7 @@ MazeWidget::MazeWidget(QWidget *parent) : QWidget (parent){}
 void MazeWidget::CreateMaze(const int width, const int height, const int ixit, const int jxit, const int ist, const int jst, const int bonuses){
 
     maze = new Lab(width,height,ixit,jxit,ist,jst,bonuses);
+    player = new Player(maze,ist,jst);
     maze->CreateLab();
     maze->bonusCreator();
     this->update();
@@ -19,24 +20,23 @@ void MazeWidget::keyPressEvent(QKeyEvent *pressed){
     //Проверка - не пройден ли уже лабиринт
     if (flag == 0) {
         if (pressed->key() == Qt::Key_Up) {
-            maze->UpMove();
+            player->MoveUp();
             repaint();
-
         }
         if (pressed->key() == Qt::Key_Down) {
-            maze->DownMove();
+            player->MoveDown();
             repaint();
         }
         if (pressed->key() == Qt::Key_Right) {
-            maze->RightMove();
+            player->MoveRight();
             repaint();
         }
         if (pressed->key() == Qt::Key_Left) {
-            maze->LeftMove();
+            player->MoveLeft();
             repaint();
         }
         //проверка - если лабиринт пройден - флаг = 1
-        if ((maze->bbb == 0) && (maze->stI == maze->exI) && (maze->stJ == maze->exJ)){
+        if ((maze->bbb == 0) && (player->xx == maze->exI) && (player->yy == maze->exJ)){
             flag = 1;
         }
     }
@@ -79,7 +79,7 @@ void MazeWidget::paintEvent(QPaintEvent*){
 //Запуск и работа бота
 void MazeWidget::BotStart(){
 
-    bot = new Ai(maze, maze->bbb, maze->stI, maze->stJ);
+    bot = new Ai(maze, maze->bbb, player->xx, player->yy, player);
     bot->Exit();
     emit BotMove();
 }
