@@ -9,7 +9,9 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QTimer>
+
 #include "labyrinth.h"
+#include "player.h"
 #include "ai.h"
 
 class QPaintEvent;
@@ -19,6 +21,8 @@ class MazeWidget : public QWidget {
 
     //Лабиринт
     Lab *maze;
+    //Игрок
+    Player *player;
     //Бот
     Ai *bot;
     //Флаг для проверки прохождения
