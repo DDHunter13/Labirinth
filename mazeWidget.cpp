@@ -80,8 +80,10 @@ void MazeWidget::paintEvent(QPaintEvent*){
 void MazeWidget::BotStart(){
 
     bot = new Ai(maze, maze->bbb, player->xx, player->yy, player);
-    bot->Exit();
-    emit BotMove();
+    if ((player->xx != maze->exI) || (player->yy != maze->exJ) || (maze->bbb != 0)){
+        bot->Exit();
+        emit BotMove();
+    }
 }
 
 //Единичный ход бота
